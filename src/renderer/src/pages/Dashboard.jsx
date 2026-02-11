@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePrompts } from '../hooks/usePrompts';
 import PromptCard from '../components/prompt/promptCard';
-const Dashboard = ({ prompts: propsPrompts, setPrompts: propsSetPrompts }) => {
+
+const Dashboard = () => {
   const navigate = useNavigate();
-  const [prompts, setPrompts] = useState([]);
+  const { prompts, loading, deletePrompt, savePrompt } = usePrompts();
   const [filter, setFilter] = useState("");
   const [dragActive, setDragActive] = useState(false);
 
-  // Charger les prompts depuis props ou localStorage
-  useEffect(() => {
-    if (propsPrompts) {
-      setPrompts(propsPrompts);
-    } else {
-      const savedPrompts = JSON.parse(localStorage.getItem("my_prompts") || "[]");
-      setPrompts(savedPrompts);
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this prompt?')) {
+      try {
+        await deletePrompt(id);
+      } catch (error) {
+        alert('Error deleting prompt');
+      }
     }
-  }, [propsPrompts]);
-
-  // Supprimer un prompt
-  const handleDelete = (id) => {
-    const newPrompts = prompts.filter((p) => p.id !== id);
-    setPrompts(newPrompts);
-    localStorage.setItem("my_prompts", JSON.stringify(newPrompts));
-    if (propsSetPrompts) propsSetPrompts(newPrompts); // si le parent gère l’état
   };
 
   const handleEdit = (prompt) => {
@@ -59,7 +53,7 @@ const Dashboard = ({ prompts: propsPrompts, setPrompts: propsSetPrompts }) => {
       }
 
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = async (event) => {
         try {
           const text = event.target.result;
           const title = file.name.replace(/\.[^/.]+$/, "");
@@ -70,19 +64,11 @@ const Dashboard = ({ prompts: propsPrompts, setPrompts: propsSetPrompts }) => {
             text: text
           };
 
-          const newPrompts = [...prompts, newPrompt];
-          setPrompts(newPrompts);
-          localStorage.setItem("my_prompts", JSON.stringify(newPrompts));
-
-          // Update parent if it manages state
-          if (propsSetPrompts) {
-            propsSetPrompts(newPrompts);
-          }
-
+          await savePrompt(newPrompt);
           alert(`Prompt "${newPrompt.title}" created from file!`);
         } catch (error) {
           console.error('Error reading file:', error);
-          alert('Error reading file: ' + error.message);
+          alert('Error importing prompt');
         }
       };
 
@@ -94,36 +80,37 @@ const Dashboard = ({ prompts: propsPrompts, setPrompts: propsSetPrompts }) => {
     }
   };
 
+  if (loading) {
+    return <div className="p-4 text-center">Loading prompts...</div>;
+  }
+
   const filteredPrompts = prompts.filter((p) =>
-    p.title.toLowerCase().includes(filter.toLowerCase())
+    p.title.toLowerCase().includes(filter.toLowerCase()) ||
+    p.text.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
     <div
-      className={`max-w-5xl mx-auto p-4 space-y-4 rounded border-2 transition ${
-        dragActive ? "border-green-500 bg-green-50 dark:bg-gray-700" : "border-transparent"
-      }`}
+      className={`min-h-screen bg-[var(--pw-white)] dark:bg-[var(--pw-dark)] p-6`}
       onDragEnter={handleDrag}
       onDragLeave={handleDrag}
       onDragOver={handleDrag}
       onDrop={handleDrop}
     >
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-[var(--pw-dark)] dark:text-[var(--pw-white)] mb-2">
              My Prompts
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Organise your prompts for LLMs
+            Organize your prompts for LLMs
           </p>
         </div>
 
-        {/* Controls Section */}
         <div className="flex gap-4 mb-8 flex-col sm:flex-row items-start sm:items-center">
           <input
             type="text"
-            placeholder="filter prompts..."
+            placeholder="🔍 Filter prompts..."
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             className="flex-1 border-2 border-gray-300 dark:border-gray-600 px-4 py-3 rounded-lg focus:outline-none focus:border-[var(--pw-green)] dark:bg-[var(--pw-dark)] dark:text-[var(--pw-white)] dark:focus:border-[var(--pw-green)] transition font-medium"
@@ -144,7 +131,6 @@ const Dashboard = ({ prompts: propsPrompts, setPrompts: propsSetPrompts }) => {
           </div>
         )}
 
-        {/* Prompts Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredPrompts.length > 0 ? (
             filteredPrompts.map((prompt) => (
@@ -159,7 +145,7 @@ const Dashboard = ({ prompts: propsPrompts, setPrompts: propsSetPrompts }) => {
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-600 dark:text-gray-400 text-lg">
-                {filter ? '❌ No prompt found' : '📭 No prompt. Create one to get started!'}
+                {filter ? ' No prompts found' : '📭 No prompts. Create one to get started!'}
               </p>
             </div>
           )}

@@ -1,32 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { usePrompts } from '../hooks/usePrompts';
 import PromptForm from "../components/prompt/PromptForm";
 
-const PromptCreate = ({ prompts, setPrompts }) => {
+const PromptCreate = () => {
   const navigate = useNavigate();
+  const { savePrompt } = usePrompts();
 
-  const handleSave = (newPrompt) => {
-    // Récupérer les prompts existants ou tableau vide
-    const currentPrompts = prompts || [];
-
-    // Ajouter le nouveau prompt avec un ID unique (toujours string)
-    const updatedPrompts = [
-      ...currentPrompts,
-      { ...newPrompt, id: Date.now().toString() } // <-- ID en string
-    ];
-
-    // Sauvegarder dans le localStorage
-    localStorage.setItem("my_prompts", JSON.stringify(updatedPrompts));
-
-    // Mettre à jour l’état global si fourni
-    if (setPrompts) setPrompts(updatedPrompts);
-
-    // Retour au Dashboard
-    navigate("/");
+  const handleSave = async (newPrompt) => {
+    try {
+      await savePrompt({
+        ...newPrompt,
+        id: Date.now().toString()
+      });
+      navigate("/");
+    } catch (error) {
+      alert('Error saving prompt');
+    }
   };
 
   const handleCancel = () => {
-    navigate("/"); // Retour au Dashboard sans sauvegarder
+    navigate("/");
   };
 
   return (

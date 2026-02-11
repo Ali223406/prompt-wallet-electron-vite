@@ -2,7 +2,15 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import store from 'electron-store';
+import Store from 'electron-store'
+
+const store = new Store({
+  name: 'prompt-wallet-store',
+  defaults: {
+    prompts: [],
+  }
+});
+console.log('Store path:', store.path)
 
 function createWindow() {
   // Create the browser window.
@@ -52,6 +60,36 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  // IPC handlers for prompt store
+  ipcMain.handle('store:get-prompts', () => {
+    return store.get('prompts', []);
+  });
+
+  ipcMain.handle('store:save-prompt', (event, prompt) => {
+    const prompts = store.get('prompts', []);
+    const existingIndex = prompts.findIndex(p => p.id === prompt.id);
+
+    if (existingIndex >= 0) {
+      prompts[existingIndex] = prompt;
+    } else {
+      prompts.push(prompt);
+    }
+
+    store.set('prompts', prompts);
+    return prompts;
+  });
+
+  ipcMain.handle('store:delete-prompt', (event, id) => {
+    const prompts = store.get('prompts', []).filter(p => p.id !== id);
+    store.set('prompts', prompts);
+    return prompts;
+  });
+
+  ipcMain.handle('store:clear-prompts', () => {
+    store.set('prompts', []);
+    return [];
+  });
 
   createWindow()
 

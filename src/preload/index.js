@@ -1,8 +1,15 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  store: {
+    getPrompts: () => ipcRenderer.invoke('store:get-prompts'),
+    savePrompt: (prompt) => ipcRenderer.invoke('store:save-prompt', prompt),
+    deletePrompt: (id) => ipcRenderer.invoke('store:delete-prompt', id),
+    clearPrompts: () => ipcRenderer.invoke('store:clear-prompts')
+  }
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

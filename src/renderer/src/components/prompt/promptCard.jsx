@@ -1,9 +1,9 @@
 import React from 'react';
 
-const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {
+const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                     //component for prompt card in the dashboard
   return (
     <div className="p-5 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 bg-[var(--pw-white)] dark:bg-[var(--pw-dark)] group">
-      {/* Titre cliquable */}
+      {/*Title of prompt, clickable to use the prompt*/}
       <h3
         className="cursor-pointer text-lg font-semibold text-[var(--pw-green)] dark:text-[var(--pw-white)] hover:text-[var(--pw-green)] dark:hover:text-[var(--pw-lilac)] underline decoration-2 decoration-[var(--pw-green)] mb-3 transition-colors"
         onClick={() => onUse(prompt.id)}
@@ -11,9 +11,9 @@ const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {
          {prompt.title}
       </h3>
 
-      {/* Texte du prompt (tronqué si trop long) */}
+
       <p className="text-[var(--pw-dark)] dark:text-[var(--pw-lilac)] mb-4 text-sm leading-relaxed line-clamp-3">
-        {prompt.text.length > 80 ? prompt.text.slice(0, 80) + '...' : prompt.text}
+        {prompt.text.length > 80 ? prompt.text.slice(0, 80) + '...' : prompt.text}                   
       </p>
 
       {/* Boutons */}

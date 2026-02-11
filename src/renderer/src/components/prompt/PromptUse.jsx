@@ -1,21 +1,21 @@
 import React, { useState, useMemo } from "react";
 
-const PromptUse = ({ prompt }) => {
-  // Détecte tous les placeholders [variable] dynamiquement
-  const placeholders = useMemo(() => {
+const PromptUse = ({ prompt }) => {               // Component for using a prompt, with dynamic placeholders
+
+  const placeholders = useMemo(() => {                          //extract placeholders from prompt text, they are in the format [placeholder]
     if (!prompt || !prompt.text) return [];
-    const matches = prompt.text.match(/\[([^\]]+)\]/g);
+    const matches = prompt.text.match(/\[([^\]]+)\]/g);       // Match all occurrences of [placeholder]
     if (!matches) return [];
-    // Retirer les doublons
+    // Remove the square brackets and return unique placeholders
     return [...new Set(matches.map(m => m.slice(1, -1)))];
   }, [prompt]);
 
-  // État pour tous les placeholders
+  // Initialize state for each placeholder with an empty string
   const [values, setValues] = useState(
     placeholders.reduce((acc, ph) => ({ ...acc, [ph]: "" }), {})
   );
 
-  // Génère le texte final
+  // Compute the final prompt by replacing placeholders with their corresponding values
   const finalPrompt = useMemo(() => {
     let text = prompt.text;
     placeholders.forEach((ph) => {

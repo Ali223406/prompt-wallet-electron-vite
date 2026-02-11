@@ -10,7 +10,6 @@ const store = new Store({
     prompts: [],
   }
 });
-console.log('Store path:', store.path)
 
 function createWindow() {
   // Create the browser window.

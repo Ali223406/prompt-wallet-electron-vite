@@ -110,7 +110,7 @@ const Dashboard = () => {
         <div className="flex gap-4 mb-8 flex-col sm:flex-row items-start sm:items-center">
           <input
             type="text"
-            placeholder="🔍 Filter prompts..."
+            placeholder=" Filter prompts..."
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             className="flex-1 border-2 border-gray-300 dark:border-gray-600 px-4 py-3 rounded-lg focus:outline-none focus:border-[var(--pw-green)] dark:bg-[var(--pw-dark)] dark:text-[var(--pw-white)] dark:focus:border-[var(--pw-green)] transition font-medium"
@@ -145,7 +145,7 @@ const Dashboard = () => {
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-600 dark:text-gray-400 text-lg">
-                {filter ? ' No prompts found' : '📭 No prompts. Create one to get started!'}
+                {filter ? ' No prompts found' : ' No prompts. Create one to get started!'}
               </p>
             </div>
           )}

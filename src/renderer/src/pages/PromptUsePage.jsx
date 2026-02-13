@@ -1,19 +1,20 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { usePrompts } from "../hooks/usePrompts";
 import PromptUse from "../components/prompt/PromptUse";
 
-const PromptUsePage = ({ prompts: propsPrompts }) => {
+const PromptUsePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { prompts, loading } = usePrompts();
 
-  // Renommer la variable locale pour éviter le conflit
-  const allPrompts = propsPrompts && propsPrompts.length > 0
-    ? propsPrompts
-    : JSON.parse(localStorage.getItem("my_prompts") || "[]");
+  if (loading) {
+    return <div className="p-4 text-center">Loading prompts...</div>;
+  }
 
-  if (!allPrompts || allPrompts.length === 0) return <div>Loading prompts...</div>;
-
-  const prompt = allPrompts.find((p) => p.id.toString() === id.toString());
+  const prompt = prompts.find(
+    (p) => String(p.id) === String(id)
+  );
 
   if (!prompt) {
     return (
@@ -30,9 +31,7 @@ const PromptUsePage = ({ prompts: propsPrompts }) => {
     );
   }
 
-  return (
-    <PromptUse prompt={prompt} />
-  );
+  return <PromptUse prompt={prompt} />;
 };
 
 export default PromptUsePage;

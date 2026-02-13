@@ -13,7 +13,7 @@ const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                   
 
 
       <p className="text-[var(--pw-dark)] dark:text-[var(--pw-lilac)] mb-4 text-sm leading-relaxed line-clamp-3">
-        {prompt.text.length > 80 ? prompt.text.slice(0, 80) + '...' : prompt.text}                   
+        {prompt.text.length > 80 ? prompt.text.slice(0, 80) + '...' : prompt.text}
       </p>
 
       {/* Boutons */}
@@ -27,7 +27,7 @@ const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                   
 
         <button
           onClick={() => {
-            if (window.confirm('Êtes-vous sûr de vouloir supprimer ce prompt ?')) {
+            if (window.confirm('Are you sure you want to delete this prompt?')) {
               onDelete(prompt.id);
             }
           }}

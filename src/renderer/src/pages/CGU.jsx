@@ -33,7 +33,8 @@ const CGU = () => {  // Component for the "Terms & Conditions" page of the appli
         <div className="bg-purple-700 dark:bg-purple-500 border-4 border-black rounded-2xl p-6 shadow-lg space-y-2">
           <h2 className="text-2xl font-semibold text-green-400">3. Data Management & Privacy</h2>
           <p>
-            Prompts are stored locally on the user's device.
+            Prompts are stored locally on the user's device. You can delete your prompts at any time from the dashboard.
+            This ensures that you have full control over your data in compliance with GDPR.
             <strong> Note:</strong> Our business model is based on the resale of qualified
             anonymized data to companies operating in the IT sector.
             By using Prompt Wallet, you acknowledge this data structure.

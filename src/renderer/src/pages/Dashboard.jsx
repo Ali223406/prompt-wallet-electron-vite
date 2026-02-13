@@ -9,15 +9,22 @@ const Dashboard = () => {
   const [filter, setFilter] = useState("");    // State for managing the filter text input, which is used to filter prompts by title or text based on user input
   const [dragActive, setDragActive] = useState(false); // State for managing whether a file is being dragged over the dashboard, used to show a visual indication for drag-and-drop file import
 
-  const handleDelete = async (id) => {     // Function to handle deleting a prompt. It shows a confirmation dialog, and if the user confirms, it calls the deletePrompt function from the custom hook to delete the prompt. If there's an error during deletion, it shows an alert message.
-    if (window.confirm('Are you sure you want to delete this prompt?')) {  // Show a confirmation dialog to the user before deleting the prompt
-      try {
-        await deletePrompt(id); // Delete the prompt using the deletePrompt function from the custom hook
-      } catch (error) {
-        alert('Error deleting prompt');
-      }
-    }
-  };
+ const handleDelete = async (id) => {
+  // Show a confirmation dialog to the user before deleting the prompt, to prevent accidental deletions. The window.confirm function displays a modal dialog with a message and OK/Cancel buttons, and returns true if the user clicks OK, or false if they click Cancel.
+  const confirmed = window.confirm(
+    'Are you sure you want to delete this prompt? This action cannot be undone.'
+  );
+
+  if (!confirmed) return; // If the user cancels the deletion, we return early from the function and do not proceed with deleting the prompt.
+
+  try {
+    await deletePrompt(id); // Call the deletePrompt function from the custom hook to delete the prompt with the given ID. This function is asynchronous, so we await its completion before proceeding.
+    alert('Prompt successfully deleted'); // Show an alert to the user confirming that the prompt was successfully deleted. This provides feedback to the user that their action was successful.
+  } catch (error) {
+    console.error('Error deleting prompt:', error); // Log pour debugging
+    alert('Error deleting prompt. Please try again.');
+  }
+};
 
   const handleEdit = (prompt) => { // Function to handle editing a prompt. It navigates to the edit page for the selected prompt, passing the prompt ID in the URL.
     navigate(`/edit/${prompt.id}`);       // Navigate to the edit page for the selected prompt, passing the prompt ID in the URL
@@ -68,7 +75,7 @@ const Dashboard = () => {
           alert(`Prompt "${newPrompt.title}" created from file!`);  // Show an alert to the user confirming that the prompt was created from the file
         } catch (error) {  // If there's an error during file reading or saving, log the error to the console and show an alert message to the user
           console.error('Error reading file:', error); // Log the error to the console for debugging purposes
-          alert('Error importing prompt'); // Show an alert if there's an error while importing the prompt from the file
+          alert('Error importing prompt'); //
         }
       };
 

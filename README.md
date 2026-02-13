@@ -22,6 +22,22 @@ $ npm run dev
 
 ### Build
 
+### structure
+- `src/components/prompt` : components
+-`src/pages/` : page React
+
+
+## Fonctionnaality
+- Create, edit, use delete prompts
+- fill dynamic  variables in prompts
+- Export/import via text files
+- Dark mode / Responsive
+
+## Raccourcis clavier
+-ctrl+alt+l : renvoie au dashboard
+-ctrl+alt+n : renvoie a new prompt
+
+
 ```bash
 # For windows
 $ npm run build:win

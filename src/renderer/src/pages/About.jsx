@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"; //  Import the React library, which is necessary to create React components and use JSX syntax in this file
 
-const About = () => {
-  return (
+const About = () => {  // The About component is a functional React component that renders the about page of the Prompt Wallet application. It provides information about the application, the development team, and the context of its creation. The component uses Tailwind CSS classes for styling and is structured with a header, content sections, and a footer.
+  return ( // The About component is a functional React component that renders the about page of the Prompt Wallet application. It provides information about the application, the development team, and the context of its creation. The component uses Tailwind CSS classes for styling and is structured with a header, content sections, and a footer.
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 p-6">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
@@ -79,4 +79,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default About;  // Export the About component as the default export of this module, allowing it to be imported and used in other parts of the application (e.g., in the routing configuration to display the about page)

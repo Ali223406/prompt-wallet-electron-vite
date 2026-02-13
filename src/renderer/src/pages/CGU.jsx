@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react';  // Import React library to create the CGU component
 
 
-const CGU = () => {
+const CGU = () => {  // Component for the "Terms & Conditions" page of the application, which displays the terms and conditions of using the Prompt Wallet app, including information about app features, development team, and data management & privacy. The content is styled with Tailwind CSS classes for a visually appealing layout.
   return (
     <div className="min-h-screen p-6 bg-gray-100 dark:bg-gray-900 font-sans">
       <div className="max-w-3xl mx-auto space-y-6">
@@ -48,4 +48,4 @@ const CGU = () => {
   );
 };
 
-export default CGU;
+export default CGU;  // Export the CGU component as the default export of this module, allowing it to be imported and used in other parts of the application (e.g., in the routing configuration to display the terms and conditions page)

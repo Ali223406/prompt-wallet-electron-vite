@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react';   // impot react library
 
 const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                     //component for prompt card in the dashboard
   return (
@@ -6,11 +6,10 @@ const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                   
       {/*Title of prompt, clickable to use the prompt*/}
       <h3
         className="cursor-pointer text-lg font-semibold text-[var(--pw-green)] dark:text-[var(--pw-white)] hover:text-[var(--pw-green)] dark:hover:text-[var(--pw-lilac)] underline decoration-2 decoration-[var(--pw-green)] mb-3 transition-colors"
-        onClick={() => onUse(prompt.id)}
+        onClick={() => onUse(prompt.id)}  // When the title is clicked, it calls the onUse function passed as a prop with the prompt's ID, allowing the user to use the prompt directly from the card.
       >
          {prompt.title}
       </h3>
-
 
       <p className="text-[var(--pw-dark)] dark:text-[var(--pw-lilac)] mb-4 text-sm leading-relaxed line-clamp-3">
         {prompt.text.length > 80 ? prompt.text.slice(0, 80) + '...' : prompt.text}
@@ -28,7 +27,7 @@ const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                   
         <button
           onClick={() => {
             if (window.confirm('Are you sure you want to delete this prompt?')) {
-              onDelete(prompt.id);
+              onDelete(prompt.id); // If the user confirms the deletion, it calls the onDelete function passed as a prop with the prompt's ID, allowing the user to delete the prompt from the card. The confirmation dialog helps prevent accidental deletions by asking the user to confirm their action before proceeding.
             }
           }}
           className="flex-1 px-3 py-2 bg-[var(--pw-lilac)] text-[var(--pw-white)] rounded-md hover:bg-[var(--pw-lilac)] dark:bg-[var(--pw-lilac)] dark:hover:bg-[var(--pw-lilac)] transition font-medium text-sm"
@@ -37,7 +36,7 @@ const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                   
         </button>
 
         <button
-          onClick={() => onUse(prompt.id)}
+          onClick={() => onUse(prompt.id)} // When the "Use" button is clicked, it calls the onUse function passed as a prop with the prompt's ID, allowing the user to use the prompt directly from the card. This provides an additional way for users to access and use their prompts without having to click on the title.
           className="flex-1 px-3 py-2 bg-[var(--pw-green)] text-[var(--pw-white)] rounded-md hover:bg-[var(--pw-green)] dark:bg-[var(--pw-green)] dark:hover:bg-[var(--pw-green)] transition font-medium text-sm"
         >
            Use
@@ -47,4 +46,4 @@ const PromptCard = ({ prompt, onDelete, onEdit, onUse }) => {                   
   );
 };
 
-export default PromptCard;
+export default PromptCard; // export promptcard

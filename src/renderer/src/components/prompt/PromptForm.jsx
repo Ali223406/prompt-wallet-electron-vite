@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // import react library
 
 const PromptForm = ({ promptToEdit, onSave, onCancel }) => {                  //form component for creating prompts and editing prompts
   const [formData, setFormData] = useState({ title: '', text: '' });
@@ -8,36 +8,35 @@ const PromptForm = ({ promptToEdit, onSave, onCancel }) => {                  //
     if (promptToEdit) {
       setFormData({ title: promptToEdit.title, text: promptToEdit.text });  //pre-fill form with existing prompt data when editing
     }
-  }, [promptToEdit]);
-
+  }, [promptToEdit]); // Re-run this effect whenever the promptToEdit prop changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target;  // Update form data state when user types in the form fields.
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear error for this field when user starts typing
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' })); //Clear ewrror for this field when user starts typing
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = {};
+  const handleSubmit = (e) => { // When the form is submitted, validate the input and call the onSave function with the new or updated prompt data. If there are validation errors, set the errors state to display error messages.
+    e.preventDefault(); //prefent default behavior of form submission which would cause a page reload
+    const newErrors = {}; // Validate form data. If there are validation errors, set the errors state to display error messages.
 
-    if (!formData.title.trim()) {
-      newErrors.title = 'Title is required';
+    if (!formData.title.trim()) { // If the title field is empty, add an error message to the newErrors object for the title field.
+      newErrors.title = 'Title is required'; // If the title field is empty, add an error message to the newErrors object for the title field.
     }
-    if (!formData.text.trim()) {
-      newErrors.text = 'Prompt text is required';
+    if (!formData.text.trim()) { // If the text field is empty, add an error message to the newErrors object for the text field.
+      newErrors.text = 'Prompt text is required'; // If the text field is empty, add an error message to the newErrors object for the text field.
     }
 
-    if (Object.keys(newErrors).length > 0) {
+    if (Object.keys(newErrors).length > 0) { // If there are any validation errors, set the errors state to the newErrors object and return early to prevent calling onSave.
       setErrors(newErrors);
       return;
     }
 
     onSave({
       ...formData,
-      id: promptToEdit ? promptToEdit.id : Date.now().toString(),
+      id: promptToEdit ? promptToEdit.id : Date.now().toString(), // If we're editing an existing prompt, keep its ID. If it's a new prompt, generate a unique ID using the current timestamp.
     });
   };
 
@@ -116,4 +115,4 @@ className={`border-2 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:
   );
 };
 
-export default PromptForm;
+export default PromptForm; // export promptform component

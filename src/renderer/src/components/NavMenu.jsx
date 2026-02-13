@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react'; // Import React and useState hook for managing component state
+import { NavLink } from 'react-router-dom'; // Import NavLink from react-router-dom for navigation links that can be styled based on the active route
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';  // Import FontAwesomeIcon component for rendering icons from the Font Awesome library
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'; // Import the specific icon (chevron down) from the Font Awesome library to be used in the navigation menu
 
-const NavMenu = () => {
+const NavMenu = () => { // The NavMenu component is responsible for rendering the navigation menu of the application. It includes two main dropdown menus: "Prompt" and "Info". The "Prompt" menu contains links to the Dashboard and New Prompt pages, while the "Info" menu contains links to the CGU and About pages. The component also manages the state of which dropdown menu is currently expanded, allowing users to toggle the visibility of the submenu items when they click on the main menu items.
   const [expandedMenu, setExpandedMenu] = useState(null);
 
-  const toggleMenu = (menu) => {
+  const toggleMenu = (menu) => { // Toggle the expanded state of the specified menu. If the menu is already expanded, it will be collapsed; if it's collapsed, it will be expanded. This allows users to show or hide the submenu items for each main menu item (Prompt and Info) when they click on them.
     setExpandedMenu(expandedMenu === menu ? null : menu);
   };
 
@@ -107,4 +107,4 @@ const NavMenu = () => {
   );
 };
 
-export default NavMenu;
+export default NavMenu; // export NavMenu component, which is responsible for rendering the navigation menu of the application, including dropdown menus for "Prompt" and "Info" with links to different pages. The component also manages the state of which dropdown menu is currently expanded, allowing users to toggle the visibility of the submenu items when they click on the main menu items.
